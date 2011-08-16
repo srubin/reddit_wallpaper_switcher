@@ -13,7 +13,7 @@ import sys
 import subprocess
 
 r = reddit.Reddit(user_agent="reddit_wallpaper_switcher")
-stories = r.get_subreddit(PICTURES_SUBREDDIT).get_top(limit=5)
+stories = r.get_subreddit(PICTURES_SUBREDDIT).get_hot(limit=5)
 url = ""
      
 for story in stories:
