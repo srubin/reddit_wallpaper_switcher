@@ -5,6 +5,7 @@
 # Set subreddit and local folder to store pictures
 PICTURES_SUBREDDIT = "earthporn"
 PICS_DIRECTORY = "images/"
+CODE_PATH = "/Users/srubin/code/reddit_wallpaper_switcher/"
 
 import reddit
 from urllib import urlretrieve
@@ -23,7 +24,7 @@ for story in stories:
 if url == "":
     exit()
 
-outpath = os.path.join(PICS_DIRECTORY, url.split("/")[-1])
+outpath = os.path.join(CODE_PATH + PICS_DIRECTORY, url.split("/")[-1])
 urlretrieve(url, outpath)
 
-subprocess.Popen("sh setwp.sh " + outpath, shell=True)
+subprocess.Popen("sh " + CODE_PATH + "setwp.sh " + outpath, shell=True)
