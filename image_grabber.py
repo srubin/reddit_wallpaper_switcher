@@ -7,13 +7,13 @@ PICTURES_SUBREDDIT = "earthporn"
 PICS_DIRECTORY = "images/"
 CODE_PATH = "/Users/srubin/code/reddit_wallpaper_switcher/"
 
-import reddit
+import praw
 from urllib import urlretrieve
 import os
 import sys
 import subprocess
 
-r = reddit.Reddit(user_agent="reddit_wallpaper_switcher")
+r = praw.Reddit(user_agent="reddit_wallpaper_switcher")
 stories = r.get_subreddit(PICTURES_SUBREDDIT).get_hot(limit=5)
 url = ""
      
