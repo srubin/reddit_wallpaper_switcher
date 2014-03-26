@@ -20,20 +20,24 @@
 #OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 #WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-# Set subreddit and local folder to store pictures
+# set subreddit.
+# suggestions: aww, earthporn, animalporn, cityporn
 PICTURES_SUBREDDIT = "earthporn"
-PICS_DIRECTORY = "images/"
-CODE_PATH = "/Users/srubin/code/reddit_wallpaper_switcher/"
 
-import praw
-from urllib import urlretrieve
+# set directory to store pics (relative to image_grabber.py)
+PICS_DIRECTORY = "images/"
+
 import os
 import sys
 import subprocess
+from urllib import urlretrieve
+
+import praw
 
 r = praw.Reddit(user_agent="reddit_wallpaper_switcher")
 stories = r.get_subreddit(PICTURES_SUBREDDIT).get_hot(limit=5)
 url = ""
+pic_dir = os.path.join(os.getcwd(), PICS_DIRECTORY)
      
 for story in stories:
     if story.url.endswith(".jpg"):
@@ -42,7 +46,7 @@ for story in stories:
 if url == "":
     exit()
 
-outpath = os.path.join(CODE_PATH + PICS_DIRECTORY, url.split("/")[-1])
+outpath = os.path.join(pic_dir, url.split("/")[-1])
 urlretrieve(url, outpath)
 
-subprocess.Popen("sh " + CODE_PATH + "setwp.sh " + outpath, shell=True)
+subprocess.Popen("sh setwp.sh " + outpath, shell=True)
