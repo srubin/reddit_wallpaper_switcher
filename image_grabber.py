@@ -38,17 +38,19 @@ import praw
 def get_top_image():
     r = praw.Reddit(user_agent="reddit_wallpaper_switcher")
     stories = r.get_subreddit(PICTURES_SUBREDDIT).get_hot(limit=5)
-    url = ""
     pic_dir = os.path.join(os.getcwd(), PICS_DIRECTORY)
 
     for story in stories:
         if story.url.endswith(".jpg"):
             url = story.url
             break
-    if url == "":
+    else:
         exit()
 
     outpath = os.path.join(pic_dir, url.split("/")[-1])
+
+    print url, outpath
+
     urlretrieve(url, outpath)
     return outpath
 
