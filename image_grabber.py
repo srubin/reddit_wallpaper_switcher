@@ -1,5 +1,5 @@
 #! /usr/bin/python
-# Reddit Wallpaper Switcher 
+# Reddit Wallpaper Switcher
 # Copyright 2011-2013 Steven Rubin - nerdforlife@gmail.com
 #Permission is hereby granted, free of charge, to any person obtaining
 #a copy of this software and associated documentation files (the
@@ -34,19 +34,32 @@ from urllib import urlretrieve
 
 import praw
 
-r = praw.Reddit(user_agent="reddit_wallpaper_switcher")
-stories = r.get_subreddit(PICTURES_SUBREDDIT).get_hot(limit=5)
-url = ""
-pic_dir = os.path.join(os.getcwd(), PICS_DIRECTORY)
-     
-for story in stories:
-    if story.url.endswith(".jpg"):
-        url = story.url
-        break
-if url == "":
-    exit()
 
-outpath = os.path.join(pic_dir, url.split("/")[-1])
-urlretrieve(url, outpath)
+def get_top_image():
+    r = praw.Reddit(user_agent="reddit_wallpaper_switcher")
+    stories = r.get_subreddit(PICTURES_SUBREDDIT).get_hot(limit=5)
+    url = ""
+    pic_dir = os.path.join(os.getcwd(), PICS_DIRECTORY)
 
-subprocess.Popen("sh setwp.sh " + outpath, shell=True)
+    for story in stories:
+        if story.url.endswith(".jpg"):
+            url = story.url
+            break
+    if url == "":
+        exit()
+
+    outpath = os.path.join(pic_dir, url.split("/")[-1])
+    urlretrieve(url, outpath)
+    return outpath
+
+
+def set_wallpaper(path):
+    subprocess.Popen("sh setwp.sh \"{}\"".format(path), shell=True)
+
+
+def main():
+    set_wallpaper(get_top_image())
+
+
+if __name__ == '__main__':
+    main()
